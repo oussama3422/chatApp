@@ -11,7 +11,6 @@ interface pageProps{}
 
 const page:FC<pageProps> = ({})=>{
     const [isLoading,setIsLoading] = useState<boolean>(false);
-
     async function loginWithGoogle(){
         setIsLoading(true);
         try{
