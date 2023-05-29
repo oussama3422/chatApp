@@ -34,10 +34,10 @@ const page:FC<pageProps> = ({})=>{
                   Sign in to your account
                </h2>
             </div>
-            <Button isLoading={isLoading} type='button' 
-            className='max-w-sm mx-auto w-full'
-            onClick={loginWithGoogle}>  
-           {isLoading ? null : (
+              <Button isLoading={isLoading} type='button' 
+              className='max-w-sm mx-auto w-full'
+              onClick={loginWithGoogle}>  
+              {isLoading ? null : (
               <svg
                 className='mr-2 h-4 w-4'
                 aria-hidden='true'
@@ -66,9 +66,10 @@ const page:FC<pageProps> = ({})=>{
                 <path d='M1 1h22v22H1z' fill='none' />
               </svg>
             )}
-            Google
+             Google
             </Button>
         </div>
+           
     </div>
     </>
     )
