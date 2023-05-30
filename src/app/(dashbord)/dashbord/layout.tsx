@@ -36,12 +36,13 @@ const Layout= async ({children}:layoutProps) => {
   if(!session){
     notFound()
   }
-  const unseenRequestCount = (
-    await fetchRedis(
-      'smembers', 
-      `user:${session.user.id}:incoming_friend+requests`
-      ) as unknown as User[]
-      ).length
+  const incomingFriendRequests = await fetchRedis(
+    'smembers',
+    `user:${session.user.id}:incoming_friend_requests`
+  ) as unknown as User[];
+  
+  const unseenRequestCount = incomingFriendRequests ? incomingFriendRequests.length : 0;
+
   return <div className='w-full flex h-screen'>
     <div className='flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-auto border-r border-gray-200 bg-white px-6'>
      <Link href='/dashbord' className='flex h-16 shrink-0 items-center'>

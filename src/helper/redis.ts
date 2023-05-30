@@ -16,7 +16,6 @@ export async function fetchRedis(command:Command,...args:(string | number)[]){
             cache:'no-store'
         },
     )
-    console.log("response ::>",response)
     if(!response.ok){
         throw new Error(`Error Executing Redis command : ${response.statusText}`)
     }

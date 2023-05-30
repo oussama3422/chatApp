@@ -21,7 +21,7 @@ export async function POST(req:Request){
         }
         )
         const data = await RESTResponse.json() as {result:string};
-        console.log(`response :::> ${data.result}`)
+        // console.log(`response :::> ${data.result}`)
       const idToAdd =  data.result;
       if(!idToAdd){
         return new Response('This person does not exist',{status:400})
@@ -35,11 +35,22 @@ export async function POST(req:Request){
       }
 
       // check if the user us already added
-      const isAlredayAdded = (await fetchRedis(
-          'sismember',
-          `user:${idToAdd}:incoming_friend_requests`,
-          session.user.id
-      )) as unknown as 0 | 1
+      const isAlredayAdded = (
+      //   await fetchRedis(
+      //     'sismember',
+      //     `user:${idToAdd}:incoming_friend_requests`,
+      //     session.user.id
+      // )
+      await fetch(
+        `${process.env.UPSTASH_REDIS_REST_URL}/user:${idToAdd}:incoming_friend_requests`,
+        {
+         headers:{
+            Authorization:`Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
+         },
+         cache:'no-store',
+        }
+        )
+      ) as unknown as 0 | 1
 
       if(isAlredayAdded){
         return new Response('Alreday added this user',{status:400})
@@ -58,7 +69,7 @@ export async function POST(req:Request){
       }
       // valid request m send friend request
 
-      db.sadd(`user:${idToAdd}:incoming_friend+requests`,session.user.id)
+      db.sadd(`user:${idToAdd}:incoming_friend_requests`,session.user.id)
 
       return new Response('Ok')
     }catch(error){
